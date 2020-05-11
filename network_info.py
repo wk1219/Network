@@ -13,4 +13,6 @@ print(mac)
 print(ip)
 print(all)
 print(host_ip)
-print(s.getsockname())
+print(s.getsockname()[0])
+url = "http://%s/Upload" % s.getsockname()[0]
+print(url)
