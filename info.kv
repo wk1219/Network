@@ -1,0 +1,40 @@
+WindowManager:
+    InfoWidget:
+
+<InfoWidget>:
+    name: "info"
+
+    FloatLayout:
+        BoxLayout:
+            size: root.width, root.height
+            orientation: 'vertical'
+            size_hint: (None, None)
+            BoxLayout:
+                size: 800, 700
+                orientation: 'horizontal'
+
+                Label:
+                    text: root.host_info()
+                    center_x: root.width / 4
+                    top: root.top - 50
+                    font_size: 50
+
+                Label:
+                    text: root.ip_info()
+                    pos: root.width, root.height
+                    font_size: 50
+
+
+
+            BoxLayout:
+                size: root.width, 100
+                orientation: 'horizontal'
+                size_hint: (None, None)
+
+                Button:
+                    text: "Video"
+                    font_size: 50
+
+                Button:
+                    text: "Home"
+                    font_size: 50
