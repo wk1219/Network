@@ -8,19 +8,22 @@ from requests import get
 class InfoWidget(Screen):
     label_text = ''
     host = ''
-    mac = ''
+    ext_ip = ''
     ip = ''
 
     def host_info(self):
         self.host = socket.gethostname()
-        return 'Host : ' + str(self.host)
+        return self.host
 
     def ip_info(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
         self.ip = s.getsockname()[0]
-        return 'IP : ' + str(self.ip)
+        return self.ip
 
+    def ext_ip_info(self):
+        self.ext_ip = get('https://api.ipify.org').text
+        return self.ext_ip
 
 class WindowManager(ScreenManager):
     pass
