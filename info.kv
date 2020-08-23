@@ -9,21 +9,23 @@ WindowManager:
             size: root.width, root.height
             orientation: 'vertical'
             size_hint: (None, None)
-            BoxLayout:
-                size: 800, 700
-                orientation: 'horizontal'
+            GridLayout:
+                cols: 1
+                padding: 50
 
                 Label:
-                    text: root.host_info()
-                    center_x: root.width / 4
-                    top: root.top - 50
+                    text: "Host : " + root.host_info()
                     font_size: 50
 
                 Label:
-                    text: root.ip_info()
+                    text: "IP : " + root.ip_info()
                     pos: root.width, root.height
                     font_size: 50
 
+                Label:
+                    text: "EXT IP : " + root.ext_ip_info()
+                    pos: root.width, root.height
+                    font_size: 50
 
 
             BoxLayout:
