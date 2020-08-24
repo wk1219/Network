@@ -14,19 +14,34 @@ WindowManager:
                 padding: 50
 
                 Label:
+                    text: " - Network Info - "
+                    font_size: 50
+
+                Label:
+                    id: host_label
                     text: "Host : " + root.host_info()
+                    size_hint: (None, None)
                     font_size: 50
+                    markup: True
+                    size: self.texture_size
 
                 Label:
+                    id: ip_label
                     text: "IP : " + root.ip_info()
+                    size_hint: (None, None)
                     pos: root.width, root.height
                     font_size: 50
+                    markup: True
+                    size: self.texture_size
 
                 Label:
+                    id: ext_ip_label
                     text: "EXT IP : " + root.ext_ip_info()
+                    size_hint: (None, None)
                     pos: root.width, root.height
                     font_size: 50
-
+                    markup: True
+                    size: self.texture_size
 
             BoxLayout:
                 size: root.width, 100
@@ -34,7 +49,7 @@ WindowManager:
                 size_hint: (None, None)
 
                 Button:
-                    text: "Video"
+                    text: "Network"
                     font_size: 50
 
                 Button:
