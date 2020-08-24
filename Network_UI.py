@@ -10,6 +10,7 @@ class InfoWidget(Screen):
     host = ''
     ext_ip = ''
     ip = ''
+    info = ''
 
     def host_info(self):
         self.host = socket.gethostname()
@@ -24,6 +25,8 @@ class InfoWidget(Screen):
     def ext_ip_info(self):
         self.ext_ip = get('https://api.ipify.org').text
         return self.ext_ip
+
+
 
 class WindowManager(ScreenManager):
     pass
