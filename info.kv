@@ -1,5 +1,6 @@
 WindowManager:
     InfoWidget:
+    Main:
 
 <InfoWidget>:
     name: "info"
@@ -21,7 +22,7 @@ WindowManager:
                     id: host_label
                     text: "Host : " + root.host_info()
                     size_hint: (None, None)
-                    font_size: 50
+                    font_size: 40
                     markup: True
                     size: self.texture_size
 
@@ -30,7 +31,7 @@ WindowManager:
                     text: "IP : " + root.ip_info()
                     size_hint: (None, None)
                     pos: root.width, root.height
-                    font_size: 50
+                    font_size: 40
                     markup: True
                     size: self.texture_size
 
@@ -39,7 +40,7 @@ WindowManager:
                     text: "EXT IP : " + root.ext_ip_info()
                     size_hint: (None, None)
                     pos: root.width, root.height
-                    font_size: 50
+                    font_size: 40
                     markup: True
                     size: self.texture_size
 
@@ -53,5 +54,28 @@ WindowManager:
                     font_size: 50
 
                 Button:
-                    text: "Home"
+                    text: "Main"
                     font_size: 50
+                    on_press:
+                        app.root.current = "main"
+
+<Main>:
+    name: "main"
+    FloatLayout:
+
+        BoxLayout:
+            size: root.width, 100
+            orientation: 'horizontal'
+            size_hint: (None, None)
+
+            Button:
+                text: "Network"
+                font_size: 50
+                on_press:
+                    app.root.current = "info"
+
+            Button:
+                text: "Main"
+                font_size: 50
+                on_press:
+                    app.root.current = "main"
