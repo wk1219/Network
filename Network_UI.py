@@ -26,7 +26,8 @@ class InfoWidget(Screen):
         self.ext_ip = get('https://api.ipify.org').text
         return self.ext_ip
 
-
+class Main(Screen):
+    pass
 
 class WindowManager(ScreenManager):
     pass
@@ -36,10 +37,12 @@ class InfoApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.info = InfoWidget()
+        self.main = Main()
 
     def build(self):
         sm = ScreenManager()
         sm.add_widget(self.info)
+        sm.add_widget(self.main)
         return sm
 
 
