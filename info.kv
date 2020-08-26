@@ -1,6 +1,6 @@
 WindowManager:
     InfoWidget:
-    Main:
+    MyPC:
 
 <InfoWidget>:
     name: "info"
@@ -44,6 +44,15 @@ WindowManager:
                     markup: True
                     size: self.texture_size
 
+                Label:
+                    id: mac_label
+                    text: "MAC : " + root.mac_info()
+                    size_hint: (None, None)
+                    pos: root.width, root.height
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
+
             BoxLayout:
                 size: root.width, 100
                 orientation: 'horizontal'
@@ -54,28 +63,71 @@ WindowManager:
                     font_size: 50
 
                 Button:
-                    text: "Main"
+                    text: "PC"
                     font_size: 50
                     on_press:
-                        app.root.current = "main"
+                        app.root.current = "mypc"
 
-<Main>:
-    name: "main"
+<MyPC>:
+    name: "mypc"
+
     FloatLayout:
-
         BoxLayout:
-            size: root.width, 100
-            orientation: 'horizontal'
+            size: root.width, root.height
+            orientation: 'vertical'
             size_hint: (None, None)
+            GridLayout:
+                cols: 1
+                padding: 50
 
-            Button:
-                text: "Network"
-                font_size: 50
-                on_press:
-                    app.root.current = "info"
+                Label:
+                    text: " - My PC Disk Info - "
+                    font_size: 50
 
-            Button:
-                text: "Main"
-                font_size: 50
-                on_press:
-                    app.root.current = "main"
+                Label:
+                    id: total_label
+                    text: "Total Size : " + str(root.total()) + " GB"
+                    size_hint: (None, None)
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
+
+                Label:
+                    id: used_label
+                    text: "Used Size : " + str(root.used()) + " GB"
+                    size_hint: (None, None)
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
+
+                Label:
+                    id: free_label
+                    text: "Free Size : " + str(root.free()) + " GB"
+                    size_hint: (None, None)
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
+
+                Label:
+                    id: free_label
+                    text: "Partition Using Percentage : " + str(root.partition_used()) + " %"
+                    size_hint: (None, None)
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
+
+
+            BoxLayout:
+                size: root.width, 100
+                orientation: 'horizontal'
+                size_hint: (None, None)
+
+                Button:
+                    text: "Network"
+                    font_size: 50
+
+                Button:
+                    text: "PC"
+                    font_size: 50
+                    on_press:
+                        app.root.current = "mypc"
