@@ -1,6 +1,7 @@
 WindowManager:
     InfoWidget:
-    MyPC:
+    MyPC_Disk:
+    MyPC_Info:
 
 <InfoWidget>:
     name: "info"
@@ -66,10 +67,10 @@ WindowManager:
                     text: "PC"
                     font_size: 50
                     on_press:
-                        app.root.current = "mypc"
+                        app.root.current = "mypc_disk"
 
-<MyPC>:
-    name: "mypc"
+<MyPC_Disk>:
+    name: "mypc_disk"
 
     FloatLayout:
         BoxLayout:
@@ -127,7 +128,69 @@ WindowManager:
                     font_size: 50
 
                 Button:
+                    text: "Disk"
+                    font_size: 50
+                    on_press:
+                        app.root.current = "mypc_disk"
+
+                Button:
                     text: "PC"
                     font_size: 50
                     on_press:
-                        app.root.current = "mypc"
+                        app.root.current = "mypc_info"
+
+<MyPC_Info>:
+    name: "mypc_info"
+
+    FloatLayout:
+        BoxLayout:
+            size: root.width, root.height
+            orientation: 'vertical'
+            size_hint: (None, None)
+            GridLayout:
+                cols: 1
+                padding: 50
+
+                Label:
+                    text: " - My PC Info - "
+                    font_size: 50
+
+                Label:
+                    id: total_label
+                    text: "OS : " + root.os_name()
+                    size_hint: (None, None)
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
+
+                Label:
+                    id: total_label
+                    text: "OS version : " + root.os_version()
+                    size_hint: (None, None)
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
+
+
+
+
+            BoxLayout:
+                size: root.width, 100
+                orientation: 'horizontal'
+                size_hint: (None, None)
+
+                Button:
+                    text: "Network"
+                    font_size: 50
+
+                Button:
+                    text: "Disk"
+                    font_size: 50
+                    on_press:
+                        app.root.current = "mypc_disk"
+
+                Button:
+                    text: "PC"
+                    font_size: 50
+                    on_press:
+                        app.root.current = "mypc_info"
