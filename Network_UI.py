@@ -6,6 +6,7 @@ import urllib
 from getmac import get_mac_address as gma
 import shutil
 import math
+import platform
 import sys
 from requests import get
 
@@ -37,7 +38,7 @@ class InfoWidget(Screen):
         return self.mac
 
 
-class MyPC(Screen):
+class MyPC_Disk(Screen):
     drive = 'C:'
     GB = 1024*1024*1024
     total_size = ''
@@ -71,6 +72,13 @@ class MyPC(Screen):
         self.used_per = math.trunc((u/t)*100)
         return self.used_per
 
+class MyPC_Info(Screen):
+    def os_name(self):
+        return platform.system()
+
+    def os_version(self):
+        return platform.version()
+
 class WindowManager(ScreenManager):
     pass
 
@@ -79,12 +87,14 @@ class InfoApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.info = InfoWidget()
-        self.mypc = MyPC()
+        self.mypc_disk = MyPC_Disk()
+        self.mypc_info = MyPC_Info()
 
     def build(self):
         sm = ScreenManager()
         sm.add_widget(self.info)
-        sm.add_widget(self.mypc)
+        sm.add_widget(self.mypc_disk)
+        sm.add_widget(self.mypc_info)
         return sm
 
 
