@@ -7,6 +7,7 @@ from getmac import get_mac_address as gma
 import shutil
 import math
 import platform
+import psutil
 import sys
 from requests import get
 
@@ -78,6 +79,15 @@ class MyPC_Info(Screen):
 
     def os_version(self):
         return platform.version()
+
+    def process_info(self):
+        return platform.processor()
+
+    def process_archi(self):
+        return platform.machine()
+
+    def ram_size(self):
+        return round(psutil.virtual_memory().total / (1024.0 ** 3))
 
 class WindowManager(ScreenManager):
     pass
