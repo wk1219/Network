@@ -156,21 +156,44 @@ WindowManager:
                     font_size: 50
 
                 Label:
-                    id: total_label
+                    id: os_name_label
                     text: "OS : " + root.os_name()
                     size_hint: (None, None)
-                    font_size: 40
+                    font_size: 30
                     markup: True
                     size: self.texture_size
 
                 Label:
-                    id: total_label
+                    id: os_ver_label
                     text: "OS version : " + root.os_version()
                     size_hint: (None, None)
-                    font_size: 40
+                    font_size: 30
                     markup: True
                     size: self.texture_size
 
+                Label:
+                    id: proc_info_label
+                    text: "Processor : \n" + root.process_info()
+                    size_hint: (None, None)
+                    font_size: 30
+                    markup: True
+                    size: self.texture_size
+
+                Label:
+                    id: proc_archi_label
+                    text: root.process_archi()
+                    size_hint: (None, None)
+                    font_size: 30
+                    markup: True
+                    size: self.texture_size
+
+                Label:
+                    id: ram_label
+                    text: "RAM : " + str(root.ram_size()) + " GB"
+                    size_hint: (None, None)
+                    font_size: 30
+                    markup: True
+                    size: self.texture_size
 
 
 
