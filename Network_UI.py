@@ -8,6 +8,7 @@ import shutil
 import math
 import platform
 import psutil
+import os
 import sys
 from requests import get
 
@@ -88,6 +89,9 @@ class MyPC_Info(Screen):
 
     def ram_size(self):
         return round(psutil.virtual_memory().total / (1024.0 ** 3))
+
+    def login_id(self):
+        return os.getlogin()
 
 class WindowManager(ScreenManager):
     pass
