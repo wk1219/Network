@@ -17,6 +17,7 @@ WindowManager:
 
                 Label:
                     text: " - Network Info - "
+                    color: 0,1,1,1
                     font_size: 50
 
                 Label:
@@ -83,7 +84,16 @@ WindowManager:
 
                 Label:
                     text: " - My PC Disk Info - "
+                    color: 0,1,1,1
                     font_size: 50
+
+                Label:
+                    id: c_labell
+                    text: "Drive : " + root.drive
+                    size_hint: (None, None)
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
 
                 Label:
                     id: total_label
@@ -153,6 +163,7 @@ WindowManager:
 
                 Label:
                     text: " - My PC Info - "
+                    color: 0,1,1,1
                     font_size: 50
 
                 Label:
