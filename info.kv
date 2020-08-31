@@ -7,17 +7,23 @@ WindowManager:
     name: "info"
 
     FloatLayout:
+        canvas.before:
+            Rectangle:
+                source: 'networking.jpg'
+                size: root.width, root.height
+                pos: self.pos
+
         BoxLayout:
             size: root.width, root.height
             orientation: 'vertical'
             size_hint: (None, None)
+
             GridLayout:
                 cols: 1
                 padding: 50
 
                 Label:
                     text: " - Network Info - "
-                    color: 0,1,1,1
                     font_size: 50
 
                 Label:
@@ -63,7 +69,8 @@ WindowManager:
                 Button:
                     text: "Network"
                     font_size: 50
-
+                    on_press:
+                        app.root.current = "info"
                 Button:
                     text: "PC"
                     font_size: 50
@@ -74,21 +81,27 @@ WindowManager:
     name: "mypc_disk"
 
     FloatLayout:
+        canvas.before:
+            Rectangle:
+                source: 'purple.jpg'
+                size: root.width, root.height
+                pos: self.pos
+
         BoxLayout:
             size: root.width, root.height
             orientation: 'vertical'
             size_hint: (None, None)
+
             GridLayout:
                 cols: 1
                 padding: 50
 
                 Label:
                     text: " - My PC Disk Info - "
-                    color: 0,1,1,1
                     font_size: 50
 
                 Label:
-                    id: c_labell
+                    id: c_label
                     text: "Drive : " + root.drive
                     size_hint: (None, None)
                     font_size: 40
@@ -136,7 +149,8 @@ WindowManager:
                 Button:
                     text: "Network"
                     font_size: 50
-
+                    on_press:
+                        app.root.current = "info"
                 Button:
                     text: "Disk"
                     font_size: 50
@@ -163,7 +177,7 @@ WindowManager:
 
                 Label:
                     text: " - My PC Info - "
-                    color: 0,1,1,1
+                    color: 0,0.7,1,1
                     font_size: 50
 
                 Label:
@@ -224,7 +238,8 @@ WindowManager:
                 Button:
                     text: "Network"
                     font_size: 50
-
+                    on_press:
+                        app.root.current = "info"
                 Button:
                     text: "Disk"
                     font_size: 50
