@@ -9,6 +9,7 @@ import math
 import platform
 import psutil
 import os
+import geocoder
 import sys
 from requests import get
 
@@ -39,6 +40,10 @@ class InfoWidget(Screen):
         self.mac = gma()
         return self.mac
 
+    def get_wps(self):
+        g = geocoder.ip('me')
+        loc = g.state + " " + g.city
+        return loc
 
 class MyPC_Disk(Screen):
     drive = 'C:'
