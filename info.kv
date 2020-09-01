@@ -61,6 +61,15 @@ WindowManager:
                     markup: True
                     size: self.texture_size
 
+                Label:
+                    id: loc_label
+                    text: "Location : " + root.get_wps()
+                    size_hint: (None, None)
+                    pos: root.width, root.height
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
+
             BoxLayout:
                 size: root.width, 100
                 orientation: 'horizontal'
