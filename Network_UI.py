@@ -45,6 +45,10 @@ class InfoWidget(Screen):
         loc = g.state + " " + g.city
         return loc
 
+    def get_netmask(self):
+        addrs = psutil.net_if_addrs()
+        return addrs['Wi-Fi'][1][2]
+
 class MyPC_Disk(Screen):
     drive = 'C:'
     GB = 1024*1024*1024
