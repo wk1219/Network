@@ -9,7 +9,7 @@ WindowManager:
     FloatLayout:
         canvas.before:
             Rectangle:
-                source: 'networking.jpg'
+                source: 'shield.jpg'
                 size: root.width, root.height
                 pos: self.pos
 
@@ -24,11 +24,13 @@ WindowManager:
 
                 Label:
                     text: " - Network Info - "
+                    color: 0,0,0,1
                     font_size: 50
 
                 Label:
                     id: host_label
                     text: "Host : " + root.host_info()
+                    color: 0,0,0,1
                     size_hint: (None, None)
                     font_size: 40
                     markup: True
@@ -37,6 +39,7 @@ WindowManager:
                 Label:
                     id: ip_label
                     text: "IP : " + root.ip_info()
+                    color: 0,0,0,1
                     size_hint: (None, None)
                     pos: root.width, root.height
                     font_size: 40
@@ -46,6 +49,7 @@ WindowManager:
                 Label:
                     id: ext_ip_label
                     text: "EXT IP : " + root.ext_ip_info()
+                    color: 0,0,0,1
                     size_hint: (None, None)
                     pos: root.width, root.height
                     font_size: 40
@@ -53,8 +57,18 @@ WindowManager:
                     size: self.texture_size
 
                 Label:
+                    id: host_label
+                    text: "Netmask : " + str(root.get_netmask())
+                    color: 0,0,0,1
+                    size_hint: (None, None)
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
+
+                Label:
                     id: mac_label
                     text: "MAC : " + root.mac_info()
+                    color: 0,0,0,1
                     size_hint: (None, None)
                     pos: root.width, root.height
                     font_size: 40
@@ -64,6 +78,7 @@ WindowManager:
                 Label:
                     id: loc_label
                     text: "Location : " + root.get_wps()
+                    color: 0,0,0,1
                     size_hint: (None, None)
                     pos: root.width, root.height
                     font_size: 40
