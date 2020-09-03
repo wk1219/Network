@@ -157,13 +157,20 @@ WindowManager:
                     size: self.texture_size
 
                 Label:
-                    id: free_label
+                    id: use_per_label
                     text: "Partition Using Percentage : " + str(root.partition_used()) + " %"
                     size_hint: (None, None)
                     font_size: 40
                     markup: True
                     size: self.texture_size
 
+                Label:
+                    id: serial_label
+                    text: "Serial Number : " + str(root.media_serial())
+                    size_hint: (None, None)
+                    font_size: 40
+                    markup: True
+                    size: self.texture_size
 
             BoxLayout:
                 size: root.width, 100
