@@ -11,6 +11,7 @@ import psutil
 import os
 import geocoder
 import sys
+import wmi
 from requests import get
 
 class InfoWidget(Screen):
@@ -82,6 +83,11 @@ class MyPC_Disk(Screen):
         t = self.total()
         self.used_per = math.trunc((u/t)*100)
         return self.used_per
+
+    def media_serial(self):
+        s = wmi.WMI()
+        d = s.Win32_PhysicalMedia()
+        return d[0].SerialNumber
 
 class MyPC_Info(Screen):
     def os_name(self):
