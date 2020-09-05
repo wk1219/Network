@@ -26,13 +26,13 @@ class InfoWidget(Screen):
         self.host = socket.gethostname()
         return self.host
 
-    def ip_info(self):
+    def ipv4_info(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
         self.ip = s.getsockname()[0]
         return self.ip
 
-    def ext_ip_info(self):
+    def ext_ipv4_info(self):
         # self.ext_ip = get('https://api.ipify.org').text
         self.ext_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
         return self.ext_ip
@@ -49,6 +49,10 @@ class InfoWidget(Screen):
     def get_netmask(self):
         addrs = psutil.net_if_addrs()
         return addrs['Wi-Fi'][1][2]
+
+    def ipv6_info(self):
+        v6 = psutil.net_if_addrs()
+        return v6['Wi-Fi'][2][1]
 
 class MyPC_Disk(Screen):
     drive = 'C:'
