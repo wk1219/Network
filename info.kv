@@ -27,32 +27,38 @@ WindowManager:
                     color: 0,0,0,1
                     font_size: 50
 
+                TextInput:
+                    id: network_input
+                    text: "Input"
+                    size: 700, 50
+                    size_hint: (None, None)
+
                 Label:
                     id: host_label
                     text: "Host : " + root.host_info()
                     color: 0,0,0,1
                     size_hint: (None, None)
-                    font_size: 40
+                    font_size: 30
                     markup: True
                     size: self.texture_size
 
                 Label:
                     id: ip_label
-                    text: "IP : " + root.ip_info()
+                    text: "IP : " + root.ipv4_info()
                     color: 0,0,0,1
                     size_hint: (None, None)
                     pos: root.width, root.height
-                    font_size: 40
+                    font_size: 30
                     markup: True
                     size: self.texture_size
 
                 Label:
                     id: ext_ip_label
-                    text: "EXT IP : " + root.ext_ip_info()
+                    text: "EXT IP : " + root.ext_ipv4_info()
                     color: 0,0,0,1
                     size_hint: (None, None)
                     pos: root.width, root.height
-                    font_size: 40
+                    font_size: 30
                     markup: True
                     size: self.texture_size
 
@@ -61,7 +67,7 @@ WindowManager:
                     text: "Netmask : " + str(root.get_netmask())
                     color: 0,0,0,1
                     size_hint: (None, None)
-                    font_size: 40
+                    font_size: 30
                     markup: True
                     size: self.texture_size
 
@@ -71,7 +77,7 @@ WindowManager:
                     color: 0,0,0,1
                     size_hint: (None, None)
                     pos: root.width, root.height
-                    font_size: 40
+                    font_size: 30
                     markup: True
                     size: self.texture_size
 
@@ -81,7 +87,7 @@ WindowManager:
                     color: 0,0,0,1
                     size_hint: (None, None)
                     pos: root.width, root.height
-                    font_size: 40
+                    font_size: 30
                     markup: True
                     size: self.texture_size
 
