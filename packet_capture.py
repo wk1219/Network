@@ -7,6 +7,10 @@ def pack_ipheader(data):
     ipheader = struct.unpack('!BBHHHBBH4s4s', data[:20])
     return ipheader
 
+def get_payload(data):
+    payload = data[20:]
+    return payload
+
 def get_tos(ipheader):
     tos = ipheader[1]
     return tos
@@ -53,7 +57,7 @@ def sniffing(host):
         sock_protocol = IPPROTO_ICMP
 
     sniffer = socket.socket(AF_INET, SOCK_RAW, sock_protocol)
-    sniffer.bind((host, 80))
+    sniffer.bind((host, 0))
     sniffer.setsockopt(IPPROTO_IP, IP_HDRINCL, 1)
 
     if os.name == 'nt':
@@ -71,14 +75,16 @@ def sniffing(host):
             ttl = get_ttl(ip_header)
             src_ip = get_ip(ip_header)[0]
             dst_ip = get_ip(ip_header)[1]
+            payload = get_payload(data)
             print("======== SNIFFER [%d] ======== " % cnt)
             print("Type of Service : %s" % str(tos))
-            print("Data Size : %s Bytes" % str(data_size))
+            print("Total Length : %s Bytes" % str(data_size))
             print("Identification : %s" % str(id))
             print("TTL : %s" % str(ttl))
             print("Protocol : %s" % str(protocol))
             print("Source IP : %s" % str(src_ip))
             print("Destination IP : %s" % str(dst_ip))
+            print("Payload : %s" % str(payload))
             cnt += 1
     except KeyboardInterrupt:
         if os.name == 'nt':
