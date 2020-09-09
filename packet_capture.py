@@ -11,6 +11,16 @@ def get_payload(data):
     payload = data[20:]
     return payload
 
+def get_version(ipheader):
+    version = (ipheader[0] >> 4) & 0x0f
+    if version == 4:
+        return "IPv4"
+    else:
+        return "IPv6"
+def get_ihl(ipheader):
+    ip_header_length = ipheader[0] & 0x0f
+    return ip_header_length * 4
+
 def get_tos(ipheader):
     tos = ipheader[1]
     return tos
@@ -68,6 +78,8 @@ def sniffing(host):
         while True:
             data = recv_data(sniffer)
             ip_header = pack_ipheader(data[:20])
+            version = get_version(ip_header)
+            ip_header_length = get_ihl(ip_header)
             tos = get_tos(ip_header)
             data_size = get_size(ip_header)
             id = get_id(ip_header)
@@ -77,14 +89,16 @@ def sniffing(host):
             dst_ip = get_ip(ip_header)[1]
             payload = get_payload(data)
             print("======== SNIFFER [%d] ======== " % cnt)
-            print("Type of Service : %s" % str(tos))
-            print("Total Length : %s Bytes" % str(data_size))
-            print("Identification : %s" % str(id))
-            print("TTL : %s" % str(ttl))
-            print("Protocol : %s" % str(protocol))
-            print("Source IP : %s" % str(src_ip))
-            print("Destination IP : %s" % str(dst_ip))
-            print("Payload : %s" % str(payload))
+            print("┌ Version : %s" % str(version))
+            print("│ IHL : %s" % str(ip_header_length))
+            print("│ Type of Service : %s" % str(tos))
+            print("│ Total Length : %s Bytes" % str(data_size))
+            print("│ Identification : %s" % str(id))
+            print("│ TTL : %s" % str(ttl))
+            print("│ Protocol : %s" % str(protocol))
+            print("│ Source IP : %s" % str(src_ip))
+            print("│ Destination IP : %s" % str(dst_ip))
+            print("└ Payload : %s" % str(payload))
             cnt += 1
     except KeyboardInterrupt:
         if os.name == 'nt':
