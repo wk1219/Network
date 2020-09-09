@@ -7,14 +7,31 @@ def pack_ipheader(data):
     ipheader = struct.unpack('!BBHHHBBH4s4s', data[:20])
     return ipheader
 
+def get_tos(ipheader):
+    tos = ipheader[1]
+    return tos
+
+def get_id(ipheader):
+    id = ipheader[3]
+    return id
+
+def get_ttl(ipheader):
+    ttl = ipheader[5]
+    return ttl
+
 def get_protocol(ipheader):
-    protocols = {1:'ICMP', 6:'TCP', 17:'UDP'}
+    protocols = {1:'ICMP', 2:'IGCMP', 6:'TCP', 9:'IGRP', 17:'UDP', 47:'GRE', 50:'ESP', 51:'AH', 57:'SKIP', 88:'EIGRP',
+                 89:'OSPF', 115:'L2TP'}
     protocol = ipheader[6]
 
     if protocol in protocols:
         return protocols[protocol]
     else:
         return 'Other Protocol'
+
+def get_size(ipheader):
+    total_size = ipheader[2]
+    return total_size
 
 def get_ip(ipheader):
     src_ip = inet_ntoa(ipheader[8])
@@ -47,12 +64,18 @@ def sniffing(host):
         while True:
             data = recv_data(sniffer)
             ip_header = pack_ipheader(data[:20])
-            data_size = ip_header[2]
+            tos = get_tos(ip_header)
+            data_size = get_size(ip_header)
+            id = get_id(ip_header)
             protocol = get_protocol(ip_header)
+            ttl = get_ttl(ip_header)
             src_ip = get_ip(ip_header)[0]
             dst_ip = get_ip(ip_header)[1]
             print("======== SNIFFER [%d] ======== " % cnt)
+            print("Type of Service : %s" % str(tos))
             print("Data Size : %s Bytes" % str(data_size))
+            print("Identification : %s" % str(id))
+            print("TTL : %s" % str(ttl))
             print("Protocol : %s" % str(protocol))
             print("Source IP : %s" % str(src_ip))
             print("Destination IP : %s" % str(dst_ip))
@@ -74,13 +97,6 @@ def main():
     host = s.getsockname()[0]
     print('START SNIFF [%s]' % host)
     sniffing(host)
-    # while True:
-    #     if cnt == 100:
-    #         break
-    #     sniffing(host, cnt)
-    #     cnt += 1
-
-    # packet_info()
 
 if __name__=='__main__':
     main()
