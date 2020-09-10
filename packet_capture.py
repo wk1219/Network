@@ -52,6 +52,15 @@ def get_ip(ipheader):
     dst_ip = inet_ntoa(ipheader[9])
     return (src_ip, dst_ip)
 
+def pack_udpheader(data):
+    udpheader = struct.unpack('!HHHH', data[:8])
+    return udpheader
+
+def get_port(header):
+    src_port = header[0]
+    dst_port = header[1]
+    return (src_port, dst_port)
+
 def recv_data(sock):
     data = ''
     try:
@@ -88,6 +97,9 @@ def sniffing(host):
             src_ip = get_ip(ip_header)[0]
             dst_ip = get_ip(ip_header)[1]
             payload = get_payload(data)
+            if protocol == 'UDP':
+                udp_header = pack_udpheader(payload)
+                src_port, dst_port = get_port(udp_header)
             print("======== SNIFFER [%d] ======== " % cnt)
             print("┌ Version : %s" % str(version))
             print("│ IHL : %s" % str(ip_header_length))
@@ -98,6 +110,8 @@ def sniffing(host):
             print("│ Protocol : %s" % str(protocol))
             print("│ Source IP : %s" % str(src_ip))
             print("│ Destination IP : %s" % str(dst_ip))
+            print("│ Source Port : %s" % str(src_port))
+            print("│ Destination Port : %s" % str(dst_port))
             print("└ Payload : %s" % str(payload))
             cnt += 1
     except KeyboardInterrupt:
