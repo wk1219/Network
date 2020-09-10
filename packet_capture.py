@@ -56,6 +56,10 @@ def pack_udpheader(data):
     udpheader = struct.unpack('!HHHH', data[:8])
     return udpheader
 
+def pack_tcpheader(data):
+    tcpheader = struct.unpack('!HHLLBBHH2s', data[:20])
+    return tcpheader
+
 def get_port(header):
     src_port = header[0]
     dst_port = header[1]
@@ -97,9 +101,14 @@ def sniffing(host):
             src_ip = get_ip(ip_header)[0]
             dst_ip = get_ip(ip_header)[1]
             payload = get_payload(data)
+
             if protocol == 'UDP':
                 udp_header = pack_udpheader(payload)
                 src_port, dst_port = get_port(udp_header)
+            elif protocol == 'TCP':
+                tcp_header = pack_tcpheader(payload)
+                src_port, dst_port = get_port(tcp_header)
+
             print("======== SNIFFER [%d] ======== " % cnt)
             print("┌ Version : %s" % str(version))
             print("│ IHL : %s" % str(ip_header_length))
