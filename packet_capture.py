@@ -65,6 +65,14 @@ def get_port(header):
     dst_port = header[1]
     return (src_port, dst_port)
 
+def udp_checksum(header):
+    checksum = header[3]
+    return checksum
+
+def tcp_checksum(header):
+    checksum = header[7]
+    return checksum
+
 def recv_data(sock):
     data = ''
     try:
@@ -105,9 +113,12 @@ def sniffing(host):
             if protocol == 'UDP':
                 udp_header = pack_udpheader(payload)
                 src_port, dst_port = get_port(udp_header)
+                checksum = udp_checksum(udp_header)
+
             elif protocol == 'TCP':
                 tcp_header = pack_tcpheader(payload)
                 src_port, dst_port = get_port(tcp_header)
+                checksum = tcp_checksum(tcp_header)
 
             print("======== SNIFFER [%d] ======== " % cnt)
             print("┌ Version : %s" % str(version))
@@ -121,6 +132,7 @@ def sniffing(host):
             print("│ Destination IP : %s" % str(dst_ip))
             print("│ Source Port : %s" % str(src_port))
             print("│ Destination Port : %s" % str(dst_port))
+            print("│ Checksum : %s" % str(hex(checksum)))
             print("└ Payload : %s" % str(payload))
             cnt += 1
     except KeyboardInterrupt:
