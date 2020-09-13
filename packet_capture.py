@@ -113,8 +113,17 @@ def sniffing(host):
             if protocol == 'UDP':
                 udp_header = pack_udpheader(payload)
                 src_port, dst_port = get_port(udp_header)
-                if src_port or dst_port == 53:
+                if src_port or dst_port == 7:
+                    protocol = 'Echo'
+                elif src_port or dst_port == 53:
                     protocol = 'DNS'
+                elif src_port or dst_port == 67:
+                    protocol = 'DHCP'
+                elif src_port or dst_port == 69:
+                    protocol = 'TFTP'
+                elif src_port or dst_port == 111:
+                    protocol = 'RPC'
+
                 checksum = udp_checksum(udp_header)
 
             elif protocol == 'TCP':
