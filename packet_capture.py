@@ -1,7 +1,12 @@
 from socket import *
-import socket
+# import socket
 import os
 import struct
+import binascii
+
+def pack_ethernet(data):
+    eth_header = struct.unpack('!6s6s2s', data[:14])
+    return eth_header
 
 def pack_ipheader(data):
     ipheader = struct.unpack('!BBHHHBBH4s4s', data[:20])
@@ -76,7 +81,7 @@ def tcp_checksum(header):
 def recv_data(sock):
     data = ''
     try:
-        data = sock.recvfrom(65565)
+        data = sock.recvfrom(65535)
     except timeout:
         data = ''
     return data[0]
@@ -87,7 +92,7 @@ def sniffing(host):
     else:
         sock_protocol = IPPROTO_ICMP
 
-    sniffer = socket.socket(AF_INET, SOCK_RAW, sock_protocol)
+    sniffer = socket(AF_INET, SOCK_RAW, sock_protocol)
     sniffer.bind((host, 0))
     sniffer.setsockopt(IPPROTO_IP, IP_HDRINCL, 1)
 
@@ -150,19 +155,25 @@ def sniffing(host):
         if os.name == 'nt':
             sniffer.ioctl(SIO_RCVALL, RCVALL_OFF)
 
-def packet_info():
+def eth_packet_info():
     print("="*20 + "INFO" + "="*20)
-    print("OS NAME : %s" % os.name)
-    print("PROTOCOL : %s" % IPPROTO_IP)
-    sniffer = socket.socket(AF_INET, SOCK_RAW, IPPROTO_IP)
-    print(sniffer)
+
+    raw = socket(PF_PACKET, SOCK_RAW)
+    raw.bind(('eth0', SOCK_RAW))
+
+    data = raw.recv(65535)
+    eth = pack_ethernet(data)
+    dst_mac = binascii.hexlify(eth[0])
+    print(dst_mac)
 
 def main():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s = socket(AF_INET, SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     host = s.getsockname()[0]
     print('START SNIFF [%s]' % host)
     sniffing(host)
+    # packet_info()
+
 
 if __name__=='__main__':
     main()
