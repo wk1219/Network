@@ -8,6 +8,13 @@ def pack_ethernet(data):
     eth_header = struct.unpack('!6s6s2s', data[:14])
     return eth_header
 
+def get_mac(eth_header):
+    raw_mac = binascii.hexlify(eth_header)
+    str_mac = raw_mac.decode('utf-8')
+    mac = '%02s:%02s:%02s:%02s:%02s:%02s' % \
+          (str_mac[:2], str_mac[2:4], str_mac[4:6], str_mac[6:8], str_mac[8:10], str_mac[10:12])
+    return mac
+
 def pack_ipheader(data):
     ipheader = struct.unpack('!BBHHHBBH4s4s', data[:20])
     return ipheader
@@ -155,24 +162,29 @@ def sniffing(host):
         if os.name == 'nt':
             sniffer.ioctl(SIO_RCVALL, RCVALL_OFF)
 
-def eth_packet_info():
+def eth_packet_info(host):
     print("="*20 + "INFO" + "="*20)
 
-    raw = socket(PF_PACKET, SOCK_RAW)
-    raw.bind(('eth0', SOCK_RAW))
+    raw = socket(AF_INET, SOCK_RAW)
+    raw.bind((host, 0))
+    raw.setsockopt(IPPROTO_IP, IP_HDRINCL, 1)
+    raw.ioctl(SIO_RCVALL, RCVALL_ON)
+    data = raw.recv(65565)
 
-    data = raw.recv(65535)
-    eth = pack_ethernet(data)
-    dst_mac = binascii.hexlify(eth[0])
+    eth = pack_ethernet(data[:14])
+    dst_mac = get_mac(eth[0])
+    src_mac = get_mac(eth[1])
     print(dst_mac)
+    print(src_mac)
+
 
 def main():
     s = socket(AF_INET, SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     host = s.getsockname()[0]
     print('START SNIFF [%s]' % host)
-    sniffing(host)
-    # packet_info()
+    # sniffing(host)
+    eth_packet_info(host)
 
 
 if __name__=='__main__':
