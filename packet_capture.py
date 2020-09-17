@@ -150,7 +150,7 @@ def sniffing(host):
                     protocol = 'Echo'
                 elif src_port == 53 or dst_port == 53:
                     protocol = 'DNS'
-                elif src_port == 53 or dst_port == 67:
+                elif src_port == 67 or dst_port == 67:
                     protocol = 'DHCP'
                 elif src_port == 69 or dst_port == 69:
                     protocol = 'TFTP'
