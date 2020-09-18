@@ -95,6 +95,11 @@ def get_port(header):
     return (src_port, dst_port)
 
 
+def get_seq(header):
+    seq_num = header[3]
+    ack_num = header[4]
+    return (seq_num, ack_num)
+
 def udp_checksum(header):
     checksum = header[3]
     return checksum
@@ -179,9 +184,13 @@ def sniffing(host):
                 elif src_port == 443 or dst_port == 443:
                     protocol = 'HTTPS'
 
+                seq_num = get_seq(tcp_header)[0]
+                ack_num = get_seq(tcp_header)[1]
+
                 checksum = tcp_checksum(tcp_header)
 
             print("======== SNIFFER [%d] ======== " % cnt)
+            print("====== [IP Header] ======")
             print("┌ Version : %s" % str(version))
             print("│ IHL : %s" % str(ip_header_length))
             print("│ Type of Service : %s" % str(tos))
@@ -190,10 +199,14 @@ def sniffing(host):
             print("│ TTL : %s" % str(ttl))
             print("│ Protocol : %s" % str(protocol))
             print("│ Source IP : %s" % str(src_ip))
-            print("│ Destination IP : %s" % str(dst_ip))
-            print("│ Source Port : %s" % str(src_port))
+            print("└ Destination IP : %s" % str(dst_ip))
+
+            print("====== [%s Header] ======" % protocol)
+            print("┌ Source Port : %s" % str(src_port))
             print("│ Destination Port : %s" % str(dst_port))
             print("│ Checksum : %s" % str(hex(checksum)))
+            print("│ Sequence Number : %s" % str(seq_num))
+            print("│ Acknowledgment Number : %s" % str(ack_num))
             print("└ Payload : %s" % str(payload))
             cnt += 1
     except KeyboardInterrupt:
