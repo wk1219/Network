@@ -100,6 +100,11 @@ def get_seq(header):
     ack_num = header[4]
     return (seq_num, ack_num)
 
+
+def get_flags(header):
+    flags = header[5]
+    return flags
+
 def udp_checksum(header):
     checksum = header[3]
     return checksum
@@ -188,6 +193,7 @@ def sniffing(host):
                 ack_num = get_seq(tcp_header)[1]
 
                 checksum = tcp_checksum(tcp_header)
+                tcp_flags = get_flags(tcp_header)
 
             print("======== SNIFFER [%d] ======== " % cnt)
             print("====== [IP Header] ======")
@@ -207,6 +213,7 @@ def sniffing(host):
             print("│ Checksum : %s" % str(hex(checksum)))
             print("│ Sequence Number : %s" % str(seq_num))
             print("│ Acknowledgment Number : %s" % str(ack_num))
+            print("│ TCP Flags : %s" % str(tcp_flags))
             print("└ Payload : %s" % str(payload))
             cnt += 1
     except KeyboardInterrupt:
