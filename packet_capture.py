@@ -105,9 +105,15 @@ def get_flags(header):
     flags = header[5]
     return flags
 
+
 def udp_checksum(header):
     checksum = header[3]
     return checksum
+
+
+def udp_len(header):
+    length = header[2]
+    return length
 
 
 def tcp_checksum(header):
@@ -153,9 +159,24 @@ def sniffing(host):
             dst_ip = get_ip(ip_header)[1]
             payload = get_payload(data)
 
+            print("======== SNIFFER [%d] ======== " % cnt)
+            print("======== [IP Header] ========")
+            print("┌ Version : %s" % str(version))
+            print("│ IHL : %s" % str(ip_header_length))
+            print("│ Type of Service : %s" % str(tos))
+            print("│ Total Length : %s Bytes" % str(data_size))
+            print("│ Identification : %s" % str(id))
+            print("│ TTL : %s" % str(ttl))
+            print("│ Protocol : %s" % str(protocol))
+            print("│ Source IP : %s" % str(src_ip))
+            print("└ Destination IP : %s" % str(dst_ip))
+
             if protocol == 'UDP':
                 udp_header = pack_udpheader(payload)
                 src_port, dst_port = get_port(udp_header)
+                udp_length = udp_len(udp_header)
+                checksum = udp_checksum(udp_header)
+
                 if src_port == 7 or dst_port == 7:
                     protocol = 'Echo'
                 elif src_port == 53 or dst_port == 53:
@@ -167,11 +188,20 @@ def sniffing(host):
                 elif src_port == 111 or dst_port == 111:
                     protocol = 'RPC'
 
-                checksum = udp_checksum(udp_header)
+                print("======== [UDP Header] ========")
+                print("┌ Source Port : %s" % str(src_port))
+                print("│ Destination Port : %s" % str(dst_port))
+                print("│ Checksum : %s" % str(hex(checksum)))
+                print("│ Length : %s" % str(udp_length))
+                print("└ Payload : %s" % str(payload))
 
             elif protocol == 'TCP':
                 tcp_header = pack_tcpheader(payload)
                 src_port, dst_port = get_port(tcp_header)
+                seq_num, ack_num = get_seq(tcp_header)
+                checksum = tcp_checksum(tcp_header)
+                tcp_flags = get_flags(tcp_header)
+
                 if src_port == 20 or src_port == 21 or dst_port == 20 or dst_port == 21:
                     protocol = 'FTP'
                 elif src_port == 22 or dst_port == 22:
@@ -189,32 +219,17 @@ def sniffing(host):
                 elif src_port == 443 or dst_port == 443:
                     protocol = 'HTTPS'
 
-                seq_num = get_seq(tcp_header)[0]
-                ack_num = get_seq(tcp_header)[1]
+                print("======== [TCP Header] ========")
+                print("┌ Source Port : %s" % str(src_port))
+                print("│ Destination Port : %s" % str(dst_port))
+                print("│ Checksum : %s" % str(hex(checksum)))
+                print("│ Sequence Number : %s" % str(seq_num))
+                print("│ Acknowledgment Number : %s" % str(ack_num))
+                print("│ TCP Flags : %s" % str(tcp_flags))
+                print("└ Payload : %s" % str(payload))
 
-                checksum = tcp_checksum(tcp_header)
-                tcp_flags = get_flags(tcp_header)
+                print("====== [%s Header] ======" % protocol)
 
-            print("======== SNIFFER [%d] ======== " % cnt)
-            print("====== [IP Header] ======")
-            print("┌ Version : %s" % str(version))
-            print("│ IHL : %s" % str(ip_header_length))
-            print("│ Type of Service : %s" % str(tos))
-            print("│ Total Length : %s Bytes" % str(data_size))
-            print("│ Identification : %s" % str(id))
-            print("│ TTL : %s" % str(ttl))
-            print("│ Protocol : %s" % str(protocol))
-            print("│ Source IP : %s" % str(src_ip))
-            print("└ Destination IP : %s" % str(dst_ip))
-
-            print("====== [%s Header] ======" % protocol)
-            print("┌ Source Port : %s" % str(src_port))
-            print("│ Destination Port : %s" % str(dst_port))
-            print("│ Checksum : %s" % str(hex(checksum)))
-            print("│ Sequence Number : %s" % str(seq_num))
-            print("│ Acknowledgment Number : %s" % str(ack_num))
-            print("│ TCP Flags : %s" % str(tcp_flags))
-            print("└ Payload : %s" % str(payload))
             cnt += 1
     except KeyboardInterrupt:
         if os.name == 'nt':
