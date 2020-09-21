@@ -228,7 +228,10 @@ def sniffing(host):
                 print("│ TCP Flags : %s" % str(tcp_flags))
                 print("└ Payload : %s" % str(payload))
 
-                print("====== [%s Header] ======" % protocol)
+
+                if protocol == 'HTTP':
+                    print("====== [%s Header] ======" % protocol)
+                    print("%s" % payload[34:42])
 
             cnt += 1
     except KeyboardInterrupt:
