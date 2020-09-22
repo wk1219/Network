@@ -193,7 +193,7 @@ def sniffing(host):
                 print("│ Destination Port : %s" % str(dst_port))
                 print("│ Checksum : %s" % str(hex(checksum)))
                 print("│ Length : %s" % str(udp_length))
-                print("└ Payload : %s" % str(payload))
+                print("└ Payload : %s" % str(payload[8:]))
 
             elif protocol == 'TCP':
                 tcp_header = pack_tcpheader(payload)
@@ -231,7 +231,7 @@ def sniffing(host):
 
                 if protocol == 'HTTP':
                     print("====== [%s Header] ======" % protocol)
-                    print("%s" % payload[34:42])
+                    print("%s" % payload[20:])
 
             cnt += 1
     except KeyboardInterrupt:
