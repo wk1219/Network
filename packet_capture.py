@@ -218,8 +218,10 @@ def sniffing(host):
                     protocol = 'IMAP'
                 elif src_port == 443 or dst_port == 443:
                     protocol = 'HTTPS'
-                elif src_port == 443:
-                    protocol = 'TLSv1.2'
+                elif src_port == 515:
+                    protocol = 'LPD'
+                elif src_port == 636:
+                    protocol = 'LDAPS'
                 print("======== [TCP Header] ========")
                 print("┌ Source Port : %s" % str(src_port))
                 print("│ Destination Port : %s" % str(dst_port))
